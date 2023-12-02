@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from aocd import get_data
 from aocd.post import submit
 
