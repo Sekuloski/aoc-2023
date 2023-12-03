@@ -6,7 +6,7 @@ from aocd.post import submit
 
 def main():
     # data = get_data().split('\n')
-    data = """""".split('\n')
+    data = open('test').read().split('\n')
 
     answer = 0
 
