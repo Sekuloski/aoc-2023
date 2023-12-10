@@ -1,7 +1,10 @@
-from collections import defaultdict
-
+import matplotlib
+import numpy
 from aocd import get_data
 from aocd.post import submit
+from matplotlib import patches
+from matplotlib.path import Path
+import matplotlib.pyplot as plt
 
 
 def main():
@@ -43,14 +46,18 @@ def main():
 
     current_pipe = 'S'
     current_x = start[0]
+    max_x = 0
     current_y = start[1]
+    max_y = 0
     came_from = (0, 0)
-    loop = set()
+    loop = []
 
     while True:
-        loop.add((current_x, current_y))
+        max_x = max(max_x, current_x)
+        max_y = max(max_y, current_y)
+        loop.append([float(current_x), len(data) - float(current_y)])
         if data[current_y][current_x] == 'S' and came_from != (0, 0):
-            print(loop)
+            # print(list(loop))
             print(len(loop))
             answer = len(loop) // 2
             break
@@ -65,9 +72,28 @@ def main():
                         current_y = current_y + direction[1]
                         current_pipe = data[current_y][current_x]
                         found += 1
+                        break
 
             except IndexError:
                 continue
+
+    # print(answer)
+
+    path = Path(loop)
+
+    # fig, ax = plt.subplots()
+    # patch = patches.PathPatch(path, facecolor='cyan', lw=2)
+    # ax.add_patch(patch)
+    # ax.set_xlim(0, max_x + 1)
+    # ax.set_ylim(0, max_y + 2)
+    # plt.show()
+
+    answer = 0
+    for y in range(len(data)):
+        for x in range(len(data[y])):
+            if [float(x), len(data) - float(y)] not in loop:
+                if path.contains_point([float(x), len(data) - float(y)]):
+                    answer += 1
 
     print(answer)
     submit(answer)
