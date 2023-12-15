@@ -71,13 +71,15 @@ def main():
     for line in data:
         states.clear()
         sequence, blocks = line.split(' ')
+        sequence = '?'.join(repeat(sequence, 5))
+        blocks = ','.join(repeat(blocks, 5))
         blocks = list(map(int, blocks.split(',')))
         result = process(sequence, blocks, damaged=0)
         answer += result
         print(sequence, blocks, result)
 
     print(int(answer))
-    submit(int(answer))
+    submit(int(answer), day=12)
 
 
 if __name__ == '__main__':
